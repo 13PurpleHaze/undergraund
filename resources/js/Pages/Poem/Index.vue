@@ -6,9 +6,7 @@
                 <div class="level__item">
                     <div class="poem" v-for="poem of level.poems" :key="poem.id">
                         <div class="poem__title">{{ poem.title }}</div>
-<!--                        <div class="poem__author">{{ poem.author }}</div>-->
-<!--                        автора нет, идите нахуй-->
-                        <Link :href="route('poem.show', poem.id)" class="btn btn-start">Начать</Link>
+                        <Link :href="route('poem.show', poem.id)" :class="level.id <= user_level.id ? `btn btn-start` : `btn btn-start block`">Начать</Link>
                     </div>
                 </div>
             </template>
@@ -27,10 +25,8 @@ export default {
         AuthLayout, Link,
     },
     props: [
-        'levels',
+        'levels', 'user_level'
     ],
-    methods: {},
-    mounted() {}
 }
 </script>
 
@@ -89,5 +85,10 @@ export default {
     border-radius: 15px;
     color: #121212;
     padding: 10px 30px;
+}
+
+.block {
+    pointer-events: none;
+    opacity: .3;
 }
 </style>
