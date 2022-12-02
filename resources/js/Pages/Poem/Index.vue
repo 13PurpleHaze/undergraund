@@ -1,29 +1,30 @@
 <template>
-    <MainLayout>
+    <AuthLayout>
         <div class="level" v-if="levels">
             <template v-for="level of levels" :key="level.id">
                 <h3 class="level__title">Уровень: <span :class="level.color">{{ level.title }}</span></h3>
                 <div class="level__item">
                     <div class="poem" v-for="poem of level.poems" :key="poem.id">
                         <div class="poem__title">{{ poem.title }}</div>
-                        <div class="poem__author">{{ poem.author }}</div>
+<!--                        <div class="poem__author">{{ poem.author }}</div>-->
+<!--                        автора нет, идите нахуй-->
                         <Link :href="route('poem.show', poem.id)" class="btn btn-start">Начать</Link>
                     </div>
                 </div>
             </template>
         </div>
-    </MainLayout>
+    </AuthLayout>
 </template>
 
 <script>
 import axios from 'axios'
-import MainLayout from "@/Layouts/MainLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 import {Link} from "@inertiajs/inertia-vue3";
 
 export default {
     name: "LevelsComponent",
     components: {
-        MainLayout, Link,
+        AuthLayout, Link,
     },
     props: [
         'levels',

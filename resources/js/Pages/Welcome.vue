@@ -10,6 +10,9 @@ defineProps({
 </script>
 
 <template>
+    <video autoplay muted loop class="video">
+        <source src="/img/letov.mp4" type="video/mp4">
+    </video>
     <Head title="Welcome" />
     <Link :href="route('level.index')">Уровни</Link>
     <div
@@ -232,3 +235,7 @@ defineProps({
         </div>
     </div>
 </template>
+
+<style scoped>
+
+</style>

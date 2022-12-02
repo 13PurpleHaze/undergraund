@@ -16,22 +16,23 @@ const user = usePage().props.value.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
+    level: user.level_id,
 });
 </script>
 
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">Profile Information</h2>
+            <h2 class="text-lg font-medium text-gray-300">Profile Information</h2>
 
-            <p class="mt-1 text-sm text-gray-600">
+            <p class="mt-1 text-sm text-gray-300">
                 Update your account's profile information and email address.
             </p>
         </header>
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Name"  class="text-gray-300"/>
 
                 <TextInput
                     id="name"
@@ -45,9 +46,10 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
+            <div class="text-white">Твой уровень{{form.level}}</div>
 
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Email" class="text-gray-300"/>
 
                 <TextInput
                     id="email"
