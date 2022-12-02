@@ -1,5 +1,5 @@
 <template>
-    <MainLayout>
+    <AuthLayout>
         <div class="poetry" v-if="lines">
             <div class="poetry__level">
                 Уровень {{ poem.level.title }}
@@ -42,17 +42,17 @@
         <div class="poetry__result" v-if="showWindow">
             Не верно
         </div>
-    </MainLayout>
+    </AuthLayout>
 </template>
 
 <script>
 import draggable from "vuedraggable"
-import MainLayout from "@/Layouts/MainLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 
 export default {
     name: "Show",
     components: {
-        draggable, MainLayout,
+        draggable, AuthLayout,
     },
     order: 3,
     props: [

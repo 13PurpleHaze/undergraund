@@ -1,20 +1,22 @@
 <script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import HeaderComponent from "@/Components/HeaderComponent.vue";
+import FooterComponent from "@/Components/FooterComponent.vue";
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
-            <Link href="/">
-                <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
-            </Link>
+    <HeaderComponent>
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+            <Link :href="route('login')" class="nav__link">Login</Link>
+            <Link :href="route('register')" class="nav__link">Register</Link>
         </div>
-
-        <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
-        >
-            <slot />
+    </HeaderComponent>
+    <main class="content">
+        <div class="container">
+            <div class="content__inner">
+                <slot/>
+            </div>
         </div>
-    </div>
+    </main>
+    <FooterComponent></FooterComponent>
 </template>
