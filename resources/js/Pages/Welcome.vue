@@ -11,7 +11,7 @@ defineProps({
 
 <template>
     <Head title="Welcome" />
-
+    <Link :href="route('level.index')">Уровни</Link>
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0"
     >
@@ -22,6 +22,7 @@ defineProps({
                 class="text-sm text-gray-700 dark:text-gray-500 underline"
                 >Dashboard</Link
             >
+
 
             <template v-else>
                 <Link :href="route('login')" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</Link>
