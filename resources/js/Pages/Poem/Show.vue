@@ -92,7 +92,7 @@ export default {
             this.message = "Все заебись, сифа";
             this.showWindow = true;
             setTimeout(() => {
-                //window.location.href = '/levels';
+                window.location.href = '/levels';
             }, 2000);
         },
         close() {
