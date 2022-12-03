@@ -12,6 +12,7 @@ class LevelController extends Controller
     {
         $levels = Level::all();
         $levels = LevelResource::collection($levels)->resolve();
-        return inertia('Poem/Index', compact('levels'));
+        $user_level = auth()->user()->level;
+        return inertia('Poem/Index', compact('levels', 'user_level'));
     }
 }

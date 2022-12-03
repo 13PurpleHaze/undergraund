@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Level::class, 'level_id', 'id');
     }
+
+   public function poems()
+   {
+       return $this->belongsToMany(Poem::class, 'poem_users', 'user_id', 'poem_id');
+   }
 }

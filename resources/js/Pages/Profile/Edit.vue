@@ -1,6 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import MainLayout from "@/Layouts/MainLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
@@ -10,16 +9,18 @@ defineProps({
     mustVerifyEmail: Boolean,
     status: String,
     level: Object,
+    poems: Number,
 });
 </script>
 
 
 <template>
     <Head title="Profile"/>
-    <MainLayout>
+    <AuthLayout>
         <div class="flex-col w-full">
             <div class="text-white profile">
                 <h3 class="level__title">Текущий уровень: <span :class="level.color">{{ level.title }}</span></h3>
+                <h3 class="level__title">Количество решенных стихов: <span :class="level.color">{{ poems }}</span></h3>
             </div>
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -41,7 +42,7 @@ defineProps({
                 </div>
             </div>
         </div>
-    </MainLayout>
+    </AuthLayout>
 </template>
 
 <style scoped>

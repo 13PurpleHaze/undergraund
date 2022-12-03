@@ -25,6 +25,7 @@ class ProfileController extends Controller
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'level' => $request->user()->level,
+            'poems' => $request->user()->poems->count(),
         ]);
     }
 

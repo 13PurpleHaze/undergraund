@@ -1,6 +1,6 @@
 <template>
     <AuthLayout>
-        <div class="poetry" v-if="lines">
+        <div :class="`poetry ${block}`" v-if="lines">
             <div class="poetry__level">
                 Уровень {{ poem.level.title }}
                 <div class="poetry__task">
@@ -11,10 +11,10 @@
                         <draggable
                             class="list-group"
                             :component-data="{
-                tag: 'div',
-                type: 'transition-group',
-                name: !drag ? 'flip-list' : null
-              }"
+                            tag: 'div',
+                            type: 'transition-group',
+                            name: !drag ? 'flip-list' : null
+                            }"
                             v-model="lines"
                             v-bind="dragOptions"
                             @start="drag = true"
@@ -39,22 +39,22 @@
         <div class="author-img">
             <img :src="`/img/${poem.author.img}`">
         </div>
-        <div class="poetry__result" v-if="showWindow">
-            Не верно
-        </div>
+        <transition name="fade">
+            <modal-result :show-window="showWindow" v-if="showWindow">{{this.message}}</modal-result>
+        </transition>
     </AuthLayout>
 </template>
 
 <script>
 import draggable from "vuedraggable"
 import AuthLayout from "@/Layouts/AuthLayout.vue";
+import ModalResult from "@/Components/ModalResult.vue";
 
 export default {
     name: "Show",
     components: {
-        draggable, AuthLayout,
+        draggable, AuthLayout, ModalResult
     },
-    order: 3,
     props: [
         'poem',
     ],
@@ -64,6 +64,8 @@ export default {
             lines: null,
             result: false,
             showWindow: false,
+            block: '',
+            message: '',
         }
     },
     methods: {
@@ -77,11 +79,24 @@ export default {
                     i++;
                 } else {
                     this.showWindow = true;
+                    this.message = "Неправильно, переделвай";
+                    setTimeout(()=>{
+                        this.showWindow = false;
+                    }, 1000);
                     return;
                 }
             }
+            this.$inertia.post(`/poems/solve`, {'poem_id': this.poem.id,});
             this.result = true;
-            this.showWindow = false
+            this.block = 'block';
+            this.message = "Все заебись, сифа";
+            this.showWindow = true;
+            setTimeout(() => {
+                //window.location.href = '/levels';
+            }, 2000);
+        },
+        close() {
+            this.showWindow = false;
         }
     },
     computed: {
@@ -203,8 +218,20 @@ export default {
     cursor: pointer;
 }
 
-.poetry__result {
-    color: #fff;
+
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.block {
+    pointer-events: none;
 }
 
 </style>

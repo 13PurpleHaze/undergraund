@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::group(['prefix' => 'poems',], function() {
         Route::get('/{poem}', [\App\Http\Controllers\PoemController::class, 'show'])->name('poem.show');
+        Route::post('/solve', [\App\Http\Controllers\PoemController::class, 'solve'])->name('poem.solve');
     });
 });
 
