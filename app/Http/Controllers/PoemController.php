@@ -28,11 +28,20 @@ class PoemController extends Controller
     public function solve(SolveRequest $request)
     {
         $data = $request->validated();
-        $result = PoemUser::firstOrCreate($data, ['poem_id' => $data['poem_id'], 'user_id' => auth()->user()->id]);
+        $result = PoemUser::firstOrCreate(['user_id' => auth()->user()->id, 'poem_id' => $data['poem_id']], ['poem_id' => $data['poem_id'], 'user_id' => auth()->user()->id]);
         $userLevel = auth()->user()->level_id;
-        $level = Level::where('id', $userLevel + 1)->get()->first()->id ?? null;
-        auth()->user()->level_id = $level ?? $userLevel;
-        auth()->user()->save();
-        return redirect()->route('poem.show', $data['poem_id']);
+        $levelUp = Level::where('id', $userLevel + 1)->get()->first()->id ?? null;
+        $level = Level::where('id', $userLevel)->get()->first()->id ?? null;
+
+        $poemsUser = auth()->user()->poems; // стихи, которые решил пользователь
+        $poemsLevel = Poem::where('level_id', $userLevel)->get(); // стихи его уровня
+
+        $poems = $poemsLevel->diff($poemsUser);
+        if($poems->isEmpty()) {
+
+            auth()->user()->level_id = $levelUp ?? $userLevel;
+            auth()->user()->save();
+        }
+        return redirect()->route('level.index');
     }
 }

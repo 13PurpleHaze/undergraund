@@ -1,6 +1,5 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import MainLayout from "@/Layouts/MainLayout.vue";
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -26,7 +25,7 @@ const submit = () => {
         <div class="flex justify-center w-full">
             <div class="max-w-xl">
                 <div class="mb-4 text-sm text-gray-300">
-                    Forgot your password? Кого ебет чужое горе? Вспоминай No problem. Just let us know your email
+                    Forgot your password? No problem. Just let us know your email
                     address
                     and we
                     will email you a password reset

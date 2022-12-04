@@ -1,6 +1,7 @@
 <template>
     <HeaderComponent>
-        <nav class="user-account">
+        <template v-slot:default>
+        <nav>
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -12,7 +13,7 @@
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-400 hover:text-yellow-500 focus:outline-none transition ease-in-out duration-150"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-500 hover:text-white focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -75,41 +76,40 @@
                 </div>
             </div>
 
-            <!-- Responsive Navigation Menu -->
-            <div
-                :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
-                class="sm:hidden"
-            >
-                <div class="pt-2 pb-3 space-y-1">
-                    <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                        Dashboard
-                    </ResponsiveNavLink>
-                </div>
 
-                <!-- Responsive Settings Options -->
-                <div class="pt-4 pb-1 border-t border-gray-200">
-                    <div class="px-4">
-                        <div class="font-medium text-base text-gray-800">
-                            {{ $page.props.auth.user.name }}
-                        </div>
-                        <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
-                    </div>
-
-                    <div class="mt-3 space-y-1">
-                        <ResponsiveNavLink :href="route('profile.edit')"> Profile</ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                            Log Out
-                        </ResponsiveNavLink>
-                    </div>
-                </div>
-            </div>
         </nav>
+
         <!-- Page Heading -->
         <header class="bg-white shadow" v-if="$slots.header">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <slot name="header"/>
             </div>
         </header>
+        </template>
+        <template v-slot:burger-content>
+            <!-- Responsive Navigation Menu -->
+            <div
+                :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
+                class="sm:hidden"
+            >
+                <!-- Responsive Settings Options -->
+                <div class="pt-4 pb-1 border-t border-gray-200">
+                    <div class="px-4">
+                        <div class="font-medium text-base text-white">
+                            {{ $page.props.auth.user.name }}
+                        </div>
+                        <div class="font-medium text-sm text-white">{{ $page.props.auth.user.email }}</div>
+                    </div>
+
+                    <div class="mt-3 space-y-1">
+                        <ResponsiveNavLink :href="route('profile.edit')" class="text-yellow-400"> Profile</ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('logout')" method="post" as="button" class="text-yellow-400">
+                            Log Out
+                        </ResponsiveNavLink>
+                    </div>
+                </div>
+            </div>
+        </template>
     </HeaderComponent>
     <main class="content">
         <div class="container">
@@ -128,10 +128,16 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import FooterComponent from "@/Components/FooterComponent.vue";
 import HeaderComponent from "@/Components/HeaderComponent.vue";
+import { ref } from 'vue';
 export default {
     name: "AuthLayout",
     components: {
         Dropdown, DropdownLink, NavLink, ResponsiveNavLink, HeaderComponent, FooterComponent
+    },
+    data() {
+        return {
+            showingNavigationDropdown: ref(false),
+        }
     }
 }
 </script>
@@ -192,5 +198,53 @@ a {
 
 .btn:hover {
     opacity: .7;
+}
+
+@media screen and (max-width: 1280px){
+    .container {
+        max-width: 900px;
+    }
+
+}
+
+@media screen and (max-width: 1024px){
+    .container {
+        max-width: 700px;
+    }
+
+}
+
+@media screen and (max-width: 768px){
+    .container {
+        max-width: 600px;
+    }
+
+    .content__inner {
+        margin-top: 50px;
+    }
+
+    .content__inner {
+        flex-direction: column;
+    }
+
+
+}
+
+@media screen and (max-width: 640px){
+    .container {
+        max-width: 500px;
+        padding: 0 10px;
+    }
+    .content__inner {
+        margin-top: 25px;
+    }
+}
+
+@media screen and (max-width: 520px){
+    .container {
+        max-width: 400px;
+    }
+
+
 }
 </style>

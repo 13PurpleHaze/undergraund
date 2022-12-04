@@ -1,46 +1,50 @@
 <template>
     <AuthLayout>
-        <div :class="`poetry ${block}`" v-if="lines">
-            <div class="poetry__level">
-                Уровень {{ poem.level.title }}
-                <div class="poetry__task">
-                    Расположите строки в правильном порядке
-                    <div class="poetry__title">"{{ poem.title }}"</div>
-                    <div class="poetry__author">{{ poem.author.name }}</div>
-                    <div class="poetry__text">
-                        <draggable
-                            class="list-group"
-                            :component-data="{
+        <transition name="fade-in-to-right">
+            <div :class="`poetry ${block}`" v-if="lines">
+                <div class="poetry__level">
+                    Уровень {{ poem.level.title }}
+                    <div class="poetry__task">
+                        <div class="title">Расположите строки в правильном порядке</div>
+                        <div class="poetry__title">"{{ poem.title }}"</div>
+                        <div class="poetry__author">{{ poem.author.name }}</div>
+                        <div class="poetry__text">
+                            <draggable
+                                class="list-group"
+                                :component-data="{
                             tag: 'div',
                             type: 'transition-group',
                             name: !drag ? 'flip-list' : null
                             }"
-                            v-model="lines"
-                            v-bind="dragOptions"
-                            @start="drag = true"
-                            @end="drag = false"
-                            item-key="order"
-                        >
-                            <template #item="{ element }">
-                                <div
-                                    class="text__line"
-                                    @click="element.fixed = !element.fixed"
-                                    aria-hidden="true"
-                                >
-                                    {{ element.text }}
-                                </div>
-                            </template>
-                        </draggable>
+                                v-model="lines"
+                                v-bind="dragOptions"
+                                @start="drag = true"
+                                @end="drag = false"
+                                item-key="order"
+                            >
+                                <template #item="{ element }">
+                                    <div
+                                        class="text__line"
+                                        @click="element.fixed = !element.fixed"
+                                        aria-hidden="true"
+                                    >
+                                        {{ element.text }}
+                                    </div>
+                                </template>
+                            </draggable>
+                        </div>
+                        <button class="btn btn-checkout" @click="checkAnswer">Проверить</button>
                     </div>
-                    <button class="btn btn-checkout" @click="checkAnswer">Проверить</button>
                 </div>
             </div>
-        </div>
-        <div class="author-img">
-            <img :src="`/img/${poem.author.img}`">
-        </div>
+        </transition>
+        <transition name="fade-in-to-left">
+            <div class="author-img" v-if="lines">
+                <img :src="`/img/${poem.author.img}`">
+            </div>
+        </transition>
         <transition name="fade">
-            <modal-result :show-window="showWindow" v-if="showWindow">{{this.message}}</modal-result>
+            <modal-result :show-window="showWindow" v-if="showWindow">{{ this.message }}</modal-result>
         </transition>
     </AuthLayout>
 </template>
@@ -73,27 +77,33 @@ export default {
             this.list = this.list.sort((a, b) => a.order - b.order);
         },
         checkAnswer() {
-            let i = 1;
-            for (let item of this.lines) {
-                if (item.order == i) {
-                    i++;
-                } else {
-                    this.showWindow = true;
-                    this.message = "Неправильно, переделвай";
-                    setTimeout(()=>{
-                        this.showWindow = false;
-                    }, 1000);
-                    return;
-                }
-            }
-            this.$inertia.post(`/poems/solve`, {'poem_id': this.poem.id,});
-            this.result = true;
-            this.block = 'block';
-            this.message = "Все заебись, сифа";
-            this.showWindow = true;
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
             setTimeout(() => {
-                window.location.href = '/levels';
-            }, 2000);
+                let i = 1;
+                for (let item of this.lines) {
+                    if (item.order == i) {
+                        i++;
+                    } else {
+                        this.showWindow = true;
+                        this.message = "Неправильно, переделвай";
+                        setTimeout(() => {
+                            this.showWindow = false;
+                        }, 1000);
+                        return;
+                    }
+                }
+                this.result = true;
+                this.block = 'block';
+                this.message = "Все верно";
+                this.showWindow = true;
+                setTimeout(() => {
+                    this.$inertia.post(`/poems/solve`, {'poem_id': this.poem.id,});
+                    //window.location.href = '/levels';
+                }, 1500);
+            }, 500);
         },
         close() {
             this.showWindow = false;
@@ -218,20 +228,71 @@ export default {
     cursor: pointer;
 }
 
-
-
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.5s ease;
+/*animation*/
+.fade-in-to-right-enter-active,
+.fade-in-to-right-leave-active {
+    transition: all 0.5s ease-out;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.fade-in-to-right-enter-from,
+.fade-in-to-right-leave-to {
+    transform: translateX(-100px);
     opacity: 0;
 }
 
+
+.fade-in-to-left-enter-active,
+.fade-in-to-left-leave-active {
+    transition: all 0.5s ease-out;
+}
+
+.fade-in-to-left-enter-from,
+.fade-in-to-left-leave-to {
+    transform: translateX(100px);
+    opacity: 0;
+}
+
+/*animation*/
+
 .block {
     pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+    .level__title {
+        font-size: 18px;
+    }
+
+    .btn-checkout {
+        font-size: 18px;
+        padding: 18px 28px;
+    }
+
+    .author-img {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .poetry {
+        width: 80%;
+        margin-bottom: 50px;
+    }
+
+    .poetry__task {
+        font-size: 19px;
+    }
+
+    .text__line {
+        font-size: 22px;
+    }
+
+    .title {
+        margin-bottom: 20px;
+    }
+
+    .poetry__title {
+        margin-bottom: 0;
+    }
 }
 
 </style>

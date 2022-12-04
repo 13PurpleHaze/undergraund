@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import {Link} from '@inertiajs/inertia-vue3';
 import HeaderComponent from "@/Components/HeaderComponent.vue";
 import FooterComponent from "@/Components/FooterComponent.vue";
 </script>
@@ -29,7 +29,7 @@ import FooterComponent from "@/Components/FooterComponent.vue";
 
 @font-face {
     font-family: Franklin;
-    src: url('/fonts/franklingothic_demi.ttf'); /* Дальше ебашим по строго по закону */
+    src: url('/fonts/franklingothic_demi.ttf');
 }
 
 *,
@@ -63,10 +63,12 @@ a {
     min-height: 100vh;
 }
 
+
 .content__inner {
     display: flex;
     margin-top: 100px;
 }
+
 
 .btn {
     background: none;
@@ -104,5 +106,70 @@ a {
     border-color: #FFCC00;
     color: #fff;
     opacity: 1;
+}
+
+@media (max-width: 1280px) {
+    .container {
+        max-width: 900px;
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        max-width: 700px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 600px;
+    }
+
+    .content__inner {
+        margin-top: 50px;
+    }
+
+    .content__inner {
+        flex-direction: column;
+    }
+    .nav__link {
+        font-size: 15px;
+    }
+
+}
+
+@media screen and (max-width: 640px) {
+    .container {
+        max-width: 500px;
+        padding: 0 10px;
+    }
+
+    .content__inner {
+        margin-top: 25px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .container {
+        max-width: 400px;
+    }
+}
+
+
+@media screen and (max-width: 450px) {
+    .container {
+        max-width: 380px;
+    }
+
+    .nav__link {
+        font-size: 11px;
+    }
+
+    .header__logo {
+        margin-right: 5px;
+    }
+
 }
 </style>

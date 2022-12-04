@@ -10,6 +10,7 @@
                     <slot></slot>
                 </div>
             </div>
+            <slot name="burger-content"></slot>
         </div>
     </header>
 </template>
@@ -51,12 +52,11 @@ export default {
 .nav__link {
     font-size: 18px;
     font-family: Candara;
+    color: #fff;
     font-weight: 400;
-    color: #FFFFFF;
     opacity: .5;
     border-bottom: 3px solid transparent;
     padding-top: 3px;
-    line-height: 65px;
 }
 
 .nav__link:first-child {
@@ -68,14 +68,25 @@ export default {
     opacity: 1;
 }
 
-.nav__link.active {
-    border-color: #FFCC00;
-    color: #fff;
-    opacity: 1;
-}
-
 .user-account {
     margin-left: auto;
+}
+
+@media screen and (max-width: 768px){
+    .header__logo {
+        font-size: 18px;
+    }
+    .nav__link {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 520px){
+    .header__logo {
+        font-size: 16px;
+        padding: 20px 0;
+        margin-right: 15px;
+    }
 }
 
 </style>
