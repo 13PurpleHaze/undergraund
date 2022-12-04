@@ -3,13 +3,14 @@
         <div class="video">
             <transition name="slide-fade">
                 <div v-if="show" class="intro__text">
-                    <Link class="btn btn-play" :href="route('login')">Start to play</Link>
-                    <div class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid doloribus
-                        impedit officia?
+                    <Link class="btn btn-play" :href="route('login')">Начать игру</Link>
+                    <div class="description">
+                        Андерграундный порядок - это игра, где вам потребуется расставлять строки стихотворений поэтов лианозовской группы в
+                        правильном порядке
                     </div>
                 </div>
             </transition>
-            <video autoplay muted loop class="video__media">
+            <video autoplay muted loop class="video__media" playsinline>
                 <source src="/img/letov.mp4" type="video/mp4">
             </video>
         </div>
@@ -81,11 +82,12 @@ export default {
 }
 
 .description {
+    width: 600px;
     margin-top: 40px;
     font-size: 24px;
     font-size: Candara;
     color: #fff;
-    background: rgba(255, 255, 255, .1);
+    background: rgba(0, 0, 0, .4);
     padding: 10px 26px;
     border-radius: 8px;
 }
@@ -102,5 +104,27 @@ export default {
 .slide-fade-leave-to {
     transform: translateY(300px);
     opacity: 0;
+}
+
+@media screen and (max-width: 640px) {
+    .description {
+        font-size:20px;
+        width: 390px;
+    }
+
+    .btn-play {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .description {
+        font-size:18px;
+        width: 300px;
+    }
+
+    .btn-play {
+        font-size: 28px;
+    }
 }
 </style>

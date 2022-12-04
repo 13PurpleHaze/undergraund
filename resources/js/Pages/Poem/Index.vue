@@ -1,21 +1,25 @@
 <template>
     <AuthLayout>
-        <div class="level" v-if="levels">
-            <template v-for="level of levels" :key="level.id">
-                <h3 class="level__title">Уровень: <span :class="level.color">{{ level.title }}</span></h3>
-                <div class="level__item">
-                    <div class="poem" v-for="poem of level.poems" :key="poem.id">
-                        <div class="poem__title">{{ poem.title }}</div>
-                        <Link :href="route('poem.show', poem.id)" :class="level.id <= user_level.id ? `btn btn-start` : `btn btn-start block`">Начать</Link>
+        <div class="level">
+            <transition-group name="fade-in-to-left" tag="div">
+                <template v-for="level of ls" :key="level.id">
+                    <h3 class="level__title">Уровень: <span :class="level.color">{{ level.title }}</span></h3>
+                    <div class="level__item">
+                        <div class="poem" v-for="poem of level.poems" :key="poem.id">
+                            <div class="poem__title">{{ poem.title }}</div>
+                            <Link :href="route('poem.show', poem.id)"
+                                  :class="level.id <= user_level.id ? `btn btn-start` : `btn btn-start block`">
+                                Начать
+                            </Link>
+                        </div>
                     </div>
-                </div>
-            </template>
+                </template>
+            </transition-group>
         </div>
     </AuthLayout>
 </template>
 
 <script>
-import axios from 'axios'
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import {Link} from "@inertiajs/inertia-vue3";
 
@@ -27,6 +31,16 @@ export default {
     props: [
         'levels', 'user_level'
     ],
+    data() {
+        return {
+            ls: [],
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.ls = this.levels;
+        }, 400);
+    }
 }
 </script>
 
@@ -90,5 +104,44 @@ export default {
 .block {
     pointer-events: none;
     opacity: .3;
+}
+
+
+/*animations*/
+
+.fade-in-to-left-enter-active,
+.fade-in-to-left-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.fade-in-to-left-enter-from,
+.fade-in-to-left-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
+}
+
+
+/*animations*/
+
+
+@media screen and (max-width: 768px) {
+
+    .level__title {
+        font-size: 20px;
+    }
+
+    .btn-start {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .level__title {
+        font-size: 17px;
+    }
+
+    .btn-start {
+        padding: 8px 22px;
+    }
 }
 </style>

@@ -28,7 +28,7 @@ const submit = () => {
         <Head title="Register"/>
         <div class="flex justify-center w-full">
             <form @submit.prevent="submit">
-                <h3 class="form_header mb-4 text-center">Registration</h3>
+                <h3 class="form_header mb-4 text-center text-white">Registration</h3>
                 <div>
                     <InputLabel for="name" value="Name" class="text-white"/>
 

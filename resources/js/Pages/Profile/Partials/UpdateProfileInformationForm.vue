@@ -46,7 +46,6 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
-            <div class="text-white">Твой уровень{{form.level}}</div>
 
             <div>
                 <InputLabel for="email" value="Email" class="text-gray-300"/>
